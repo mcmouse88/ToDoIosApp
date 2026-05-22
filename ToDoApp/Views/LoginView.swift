@@ -31,10 +31,11 @@ struct LoginView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 12)
                                 .foregroundColor(Color.blue)
-                            
-                            Text("Log in")
+
+                            Text("Log In")
                                 .foregroundColor(Color.white)
                                 .bold()
+                                .padding(.vertical, 16)
                         }
                     }
                 }

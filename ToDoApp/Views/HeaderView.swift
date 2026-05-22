@@ -26,10 +26,8 @@ struct HeaderView: View {
             }
             .padding(.top, 30)
         }
-        .frame(
-            width: UIScreen.main.bounds.width * 3,
-            height: 300
-        )
+        .frame(height: 300)
+        .containerRelativeFrame(.horizontal) { width, _ in width * 3 }
         .offset(y: -100)
     }
 }
