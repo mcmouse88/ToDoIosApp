@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: SwiftLint
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure SwiftLint
+        run: command -v swiftlint >/dev/null || brew install swiftlint
+      - name: Run SwiftLint
+        # Non-strict: exits non-zero only on errors, not warnings.
+        run: swiftlint lint --reporter github-actions-logging
+
+  build:
+    name: Build (iOS)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode 26.5
+        run: sudo xcode-select -s /Applications/Xcode_26.5.app
+      - run: xcodebuild -version
+      - name: Resolve SPM dependencies
+        run: xcodebuild -resolvePackageDependencies -project ToDoApp.xcodeproj -scheme ToDoApp
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project ToDoApp.xcodeproj \
+            -scheme ToDoApp \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
