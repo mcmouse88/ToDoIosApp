@@ -21,5 +21,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ToDoListItemView()
+    ProfileView()
 }
