@@ -27,7 +27,8 @@ struct ToDoListItemView: View {
             Button {
                 viewModel.toggleIsDone(item: item)
             } label: {
-                Image(systemName: item.isDone ? "checkmark.circle.fill" : "cirle")
+                Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(.blue)
             }
         }
     }
